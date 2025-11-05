@@ -126,7 +126,7 @@ public class EmergencyRoomGUI {
 	 * Removes a Patient from the screen.
 	 * @param p The Patient.
 	 */
-	public void removePatient(Patient p) {
+	public synchronized void removePatient(Patient p) {
 		patients.remove(p);
 		drawingPanel.repaint();
 	}
