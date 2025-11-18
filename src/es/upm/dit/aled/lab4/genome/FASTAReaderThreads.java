@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -113,8 +114,12 @@ public class FASTAReaderThreads {
 	 * @param pattern The pattern to be found.
 	 * @return All the positions of the first character of every occurrence of the
 	 *         pattern in the data.
+	 * @throws ExecutionException 
+	 * @throws InterruptedException 
 	 */
-	public List<Integer> search(byte[] pattern) {
+	public List<Integer> search(byte[] pattern) throws InterruptedException, ExecutionException {
+		List<Integer> results = new ArrayList<Integer>(0);
+		try {
 		int cores = Runtime.getRuntime().availableProcessors();
 		ExecutorService executor = Executors.newFixedThreadPool(cores);
 			int tramoLength =content.length/cores;
@@ -126,16 +131,20 @@ public class FASTAReaderThreads {
 		for(int i=0; i<cores; i++) {
 			FASTASearchCallable tarea = new FASTASearchCallable(this, lo, hi, pattern);
 			Future<List<Integer>> futuro= executor.submit(tarea);
-			lo=hi;
+			lo=hi+1;
 			hi=+tramoLength;
 			futures[i]=futuro;
 		}
 		//Obtenemos resultados
-		
-		
+		for(int i=0; i<futures.length; i++) {
+			results.addAll(futures[i].get());
+		}
 		executor.shutdown();
+		}catch (Exception e){
+			System.out.println("Te task was interrumpted"+ e.getMessage());
+		}
 		// TODO
-		return null;
+		return results;
 	}
 
 	public static void main(String[] args) {

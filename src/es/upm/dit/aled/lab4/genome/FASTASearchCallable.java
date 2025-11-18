@@ -47,11 +47,17 @@ public class FASTASearchCallable implements Callable<List<Integer>> {
 	 * @return All the positions of the first character of every occurrence of the
 	 *         pattern in the segment of content to be searched.
 	 */
+	//IMPLEMENTA BÚSQUEDA LINEAL, aunque a los límites los llamemos lo y hi no tiene nada que ver
 	@Override
 	public List<Integer> call() throws Exception {
-		
-		// TODO
-		return null;
+		List<Integer> coincidencias = new ArrayList<Integer>();
+		for(int i =lo; i<hi; i++ ) {
+			if(this.compare(pattern, i)) {
+				coincidencias.add(i);
+			}
+		}
+		// TODO*
+		return coincidencias;
 	}
 
 	/*
