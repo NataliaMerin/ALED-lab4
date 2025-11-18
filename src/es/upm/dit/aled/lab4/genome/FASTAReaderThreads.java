@@ -140,10 +140,11 @@ public class FASTAReaderThreads {
 			results.addAll(futures[i].get());
 		}
 		executor.shutdown();
+		
 		}catch (Exception e){
 			System.out.println("Te task was interrumpted"+ e.getMessage());
 		}
-		// TODO
+		// TODO*
 		return results;
 	}
 
