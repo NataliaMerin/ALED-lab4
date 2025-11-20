@@ -130,7 +130,8 @@ public class Patient extends Thread {
 	 * movement is animated by the GUI and the index is increased by one.
 	 */
 	private void advanceProtocol() {
-		//1. Pedir a la interfaz gráfica EmergencyRoomGUI que ejecute una animación que lleve el punto que representa al paciente hasta su nueva ubicación.
+		//1. Pedir a la interfaz gráfica EmergencyRoomGUI que ejecute una animación que 
+		//lleve el punto que representa al paciente hasta su nueva ubicación.
 		EmergencyRoomGUI.getInstance().animateTransfer(this, protocol.get(indexProtocol));
 		//2. Cambiar la ubicación actual del paciente.
 		this.location = protocol.get(indexProtocol).getTo();
